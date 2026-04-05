@@ -1,0 +1,1 @@
+{"timestamp": "2026-04-05T00:24:12.509049Z", "level": "ERROR", "logger": "apps.accounts.telegram_gateway", "message": "Telegram Gateway sendVerificationMessage failed: {'ok': False, 'error': 'CODE_LENGTH_REQUIRED'}", "module": "telegram_gateway", "function": "send_otp", "line": 46}

@@ -1,0 +1,17 @@
+-r base.txt
+
+# Production WSGI/ASGI server
+gunicorn==22.0.0
+uvicorn[standard]==0.29.0
+
+# Monitoring
+sentry-sdk==1.43.0
+django-prometheus==2.3.1
+
+# Security
+django-csp==3.8
+
+# Channels (WebSocket)
+channels==4.1.0
+channels-redis==4.2.0
+daphne==4.1.0
