@@ -1,17 +1,40 @@
 """Jobs admin configuration."""
 
 from django.contrib import admin
+from django.core.cache import cache
 from django.utils.html import format_html
 
 from .models import Job, JobCategory, JobImage, JobReview, JobStatus
 
+_CATEGORIES_CACHE_KEY = "job_categories"
+
 
 @admin.register(JobCategory)
 class JobCategoryAdmin(admin.ModelAdmin):
-    list_display = ["name", "slug", "is_active", "sort_order"]
+    list_display = ["name", "slug", "icon_preview", "is_active", "sort_order"]
     list_editable = ["is_active", "sort_order"]
     prepopulated_fields = {"slug": ("name",)}
     search_fields = ["name"]
+    readonly_fields = ["icon_preview"]
+
+    def icon_preview(self, obj):
+        if not obj.icon:
+            return "-"
+        url = obj.icon.url
+        return format_html('<img src="{}" width="32" height="32" style="object-fit:contain" />', url)
+    icon_preview.short_description = "Icon"
+
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        cache.delete(_CATEGORIES_CACHE_KEY)
+
+    def delete_model(self, request, obj):
+        super().delete_model(request, obj)
+        cache.delete(_CATEGORIES_CACHE_KEY)
+
+    def delete_queryset(self, request, queryset):
+        super().delete_queryset(request, queryset)
+        cache.delete(_CATEGORIES_CACHE_KEY)
 
 
 class JobImageInline(admin.TabularInline):

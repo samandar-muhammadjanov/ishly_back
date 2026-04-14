@@ -29,7 +29,7 @@ class JobCategory(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True, db_index=True)
-    icon = models.CharField(max_length=100, blank=True, help_text="Icon name or URL")
+    icon = models.FileField(upload_to="categories/icons/", blank=True, help_text="Upload an SVG or image file")
     description = models.TextField(blank=True)
     is_active = models.BooleanField(default=True, db_index=True)
     sort_order = models.PositiveSmallIntegerField(default=0, db_index=True)
