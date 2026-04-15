@@ -4,8 +4,6 @@ WebSocket-ready design using Django Channels.
 One ChatRoom per Job — employer and worker communicate here.
 """
 
-import uuid
-
 from django.db import models
 
 from apps.accounts.models import User
@@ -17,7 +15,6 @@ class ChatRoom(models.Model):
     Created when a worker accepts a job.
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     job = models.OneToOneField(
         "jobs.Job",
         on_delete=models.CASCADE,
@@ -64,7 +61,6 @@ class Message(models.Model):
     WebSocket consumers write to this model; REST API reads it.
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     room = models.ForeignKey(ChatRoom, on_delete=models.CASCADE, related_name="messages")
     sender = models.ForeignKey(
         User,

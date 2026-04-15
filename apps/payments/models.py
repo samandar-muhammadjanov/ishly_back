@@ -3,8 +3,6 @@ Payments models.
 Internal wallet system with full transaction ledger.
 """
 
-import uuid
-
 from django.core.validators import MinValueValidator
 from django.db import models
 
@@ -41,7 +39,6 @@ class Wallet(models.Model):
     race conditions.
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -96,7 +93,6 @@ class Transaction(models.Model):
       - debit:  money going OUT  (-)
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     wallet = models.ForeignKey(
         Wallet,
         on_delete=models.PROTECT,
@@ -182,7 +178,6 @@ class PaymentRequest(models.Model):
     Updated by payment provider webhook callbacks.
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     wallet = models.ForeignKey(
         Wallet,
         on_delete=models.PROTECT,

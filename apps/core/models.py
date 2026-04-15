@@ -3,24 +3,14 @@ Core base models.
 All domain models should inherit from these.
 """
 
-import uuid
-
 from django.db import models
 from django.utils import timezone
 
 
 class UUIDModel(models.Model):
     """
-    Abstract base model that uses UUID as primary key.
-    Prevents enumeration attacks and improves security.
+    Abstract base model that uses auto-incrementing integer as primary key.
     """
-
-    id = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
-        db_index=True,
-    )
 
     class Meta:
         abstract = True

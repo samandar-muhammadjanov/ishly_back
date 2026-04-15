@@ -3,7 +3,6 @@ Jobs models.
 Core domain: Job lifecycle, categories, geo-location.
 """
 
-import uuid
 from decimal import Decimal
 
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -26,7 +25,6 @@ class JobCategory(models.Model):
     Managed via admin panel.
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True, db_index=True)
     icon = models.FileField(upload_to="categories/icons/", blank=True, help_text="Upload an SVG or image file")
@@ -60,8 +58,6 @@ class Job(models.Model):
     - worker FK is null until a worker accepts the job
     - select_for_update() used in accept flow to prevent race conditions
     """
-
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     # Parties
     employer = models.ForeignKey(
@@ -161,7 +157,6 @@ class Job(models.Model):
 class JobImage(models.Model):
     """Optional images attached to a job listing."""
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name="images")
     image = models.ImageField(upload_to="jobs/%Y/%m/")
     sort_order = models.PositiveSmallIntegerField(default=0)
@@ -181,7 +176,6 @@ class JobReview(models.Model):
     Each party can leave one review per job.
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name="reviews")
     reviewer = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="given_reviews"

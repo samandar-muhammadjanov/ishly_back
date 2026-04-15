@@ -3,7 +3,6 @@ Accounts models.
 Custom User model with phone-number auth, roles, wallet balance, and rating.
 """
 
-import uuid
 from decimal import Decimal
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
@@ -60,7 +59,6 @@ class User(AbstractBaseUser, PermissionsMixin):
       - worker:   Discovers and accepts jobs
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     phone_number = PhoneNumberField(unique=True, db_index=True)
     role = models.CharField(
         max_length=10,
@@ -143,7 +141,6 @@ class OTPCode(models.Model):
     Automatically expires based on OTP_EXPIRY_SECONDS setting.
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     phone_number = PhoneNumberField(db_index=True)
     code = models.CharField(max_length=10)
     is_used = models.BooleanField(default=False, db_index=True)
@@ -201,7 +198,6 @@ class DeviceToken(models.Model):
     One user can have multiple devices.
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
