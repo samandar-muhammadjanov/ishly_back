@@ -96,11 +96,7 @@ class UserPublicSerializer(serializers.ModelSerializer):
         read_only_fields = fields
 
     def get_phone_number(self, obj: User) -> str:
-        """Mask phone number for privacy: +998 ** *** 78 90"""
-        phone = str(obj.phone_number)
-        if len(phone) > 6:
-            return phone[:5] + "****" + phone[-4:]
-        return phone
+        return str(obj.phone_number)
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
